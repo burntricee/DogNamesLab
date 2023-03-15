@@ -121,21 +121,22 @@ public class DogNamesLab {
         int plays = 0;
         while (playing) {
             plays++;
-            Dog dog1 = dogs.get(lab.rand.nextInt(dogs.size() + 1));
-            Dog dog2 = dogs.get(lab.rand.nextInt(dogs.size() + 1));
-            while (dog2.equals(dog1)) dog2 = dogs.get(lab.rand.nextInt(dogs.size() + 1));
+            Dog[] selectDogs = new Dog[2];
+            selectDogs[0] = dogs.get(lab.rand.nextInt(dogs.size() + 1));
+            selectDogs[1] = dogs.get(lab.rand.nextInt(dogs.size() + 1));
+            while (selectDogs[0].getCount() == selectDogs[1].getCount() || selectDogs[1].equals(selectDogs[0])) selectDogs[1] = dogs.get(lab.rand.nextInt(dogs.size() + 1));
             String morePopName;
-            if (dog1.getCount() >= dog2.getCount()) {
-                morePopName = dog1.getDogName();
+            if (selectDogs[0].getCount() > selectDogs[1].getCount()) {
+                morePopName = selectDogs[0].getDogName();
             } else {
-                morePopName = dog2.getDogName();
+                morePopName = selectDogs[1].getDogName();
             }
             System.out.printf("""
                     Which name is more popular for Anchorage dogs? (Type 1 or 2)
                     \t1. %s
                     \t2. %s
-                    User types:\s""", dog1.getDogName(), dog2.getDogName());
-            if (morePopName.equalsIgnoreCase(readIn.nextLine())) {
+                    User types:\s""", selectDogs[0].getDogName(), selectDogs[1].getDogName());
+            if (morePopName.equalsIgnoreCase(selectDogs[readIn.nextInt() - 1].getDogName())) {
                 wins++;
                 System.out.print("""
                         Yes, that’s right.
@@ -147,6 +148,7 @@ public class DogNamesLab {
                         Do you want to play again? (Y/N)
                         """, morePopName);
             }
+            readIn.nextLine();
             if (readIn.nextLine().equalsIgnoreCase("N")) playing = false;
         }
         System.out.printf("You guessed correctly %d out of %d times.", wins, plays);
