@@ -10,8 +10,8 @@ import java.util.Scanner;
 public class DogNamesLab {
 
     private static String promptForFileName() {
-        System.out.println("Enter the file name: ");
-        @SuppressWarnings("resource")
+        System.out.println("Enter the file name: " );
+        @SuppressWarnings("resource" )
         Scanner keyIn = new Scanner(System.in);
         return keyIn.next();
     }
@@ -32,7 +32,7 @@ public class DogNamesLab {
 
         try {
             // verify file and create file Scanner
-            Scanner fileReader = openFile("Dog_Names.csv");
+            Scanner fileReader = openFile("Dog_Names.csv" );
 
             //  Discard header line
             fileReader.nextLine();
@@ -46,7 +46,7 @@ public class DogNamesLab {
             }
             fileReader.close();
         } catch (FileNotFoundException noFile) {
-            System.out.println("There was an error opening or reading from the file.");
+            System.out.println("There was an error opening or reading from the file." );
             System.exit(0);
         }
 
@@ -62,10 +62,10 @@ public class DogNamesLab {
 
         switch (option) {
             case 1:
-                System.out.println("Enter a dog’s name?");
+                System.out.println("Enter a dog’s name?" );
                 String name = in.nextLine();
                 int nameCount = getCountForDog(doglist, name);
-                System.out.println(name + " is registered " + nameCount + " times.");
+                System.out.println(name + " is registered " + nameCount + " times." );
                 break;
             case 2:
                 System.out.println(getDogNamesAlphabetically(doglist));
@@ -74,7 +74,7 @@ public class DogNamesLab {
                 playGuessingGame(doglist, in);
                 break;
             default:
-                System.out.println("Invalid option.");
+                System.out.println("Invalid option." );
         }
         in.close();
     }
@@ -91,11 +91,11 @@ public class DogNamesLab {
 
     public static String getDogNamesAlphabetically(ArrayList<Dog> dogs) {
         // TODO Sort the list of Dog by name return
-        if (dogs.size() == 0) return "";
+        if (dogs.isEmpty()) return "";
         Collections.sort(dogs);
         StringBuilder output = new StringBuilder();
         for (Dog dog : dogs) {
-            output.append(dog.getDogName()).append("\n");
+            output.append(dog.getDogName()).append("\n" );
         }
         return output.toString();
     }
@@ -124,32 +124,27 @@ public class DogNamesLab {
             Dog[] selectDogs = new Dog[2];
             selectDogs[0] = dogs.get(lab.rand.nextInt(dogs.size() + 1));
             selectDogs[1] = dogs.get(lab.rand.nextInt(dogs.size() + 1));
-            while (selectDogs[0].getCount() == selectDogs[1].getCount() || selectDogs[1].equals(selectDogs[0])) selectDogs[1] = dogs.get(lab.rand.nextInt(dogs.size() + 1));
+            while (selectDogs[0].getCount() == selectDogs[1].getCount())
+                selectDogs[1] = dogs.get(lab.rand.nextInt(dogs.size() + 1));
             String morePopName;
             if (selectDogs[0].getCount() > selectDogs[1].getCount()) {
                 morePopName = selectDogs[0].getDogName();
             } else {
                 morePopName = selectDogs[1].getDogName();
             }
-            System.out.printf("""
-                    Which name is more popular for Anchorage dogs? (Type 1 or 2)
-                    \t1. %s
-                    \t2. %s
-                    User types:\s""", selectDogs[0].getDogName(), selectDogs[1].getDogName());
+            System.out.printf("Which name is more popular for Anchorage dogs? (Type 1 or 2)%n" +
+                    "1. %s%n" +
+                    "2. %s%n" +
+                    "User types: ", selectDogs[0].getDogName(), selectDogs[1].getDogName());
             if (morePopName.equalsIgnoreCase(selectDogs[readIn.nextInt() - 1].getDogName())) {
                 wins++;
-                System.out.print("""
-                        Yes, that’s right.
-                        Do you want to play again? (Y/N)
-                        """);
+                System.out.print("Yes, that’s right.%n" +
+                        "Do you want to play again? (Y/N)" );
             } else {
-                System.out.printf("""
-                        Nope, the more popular dog name is %s.
-                        Do you want to play again? (Y/N)
-                        """, morePopName);
+                System.out.printf("Nope, the more popular dog name is %s.%n" +
+                        "Do you want to play again? (Y/N)%n", morePopName);
             }
-            readIn.nextLine();
-            if (readIn.nextLine().equalsIgnoreCase("N")) playing = false;
+            if (readIn.next().equalsIgnoreCase("N" )) playing = false;
         }
         System.out.printf("You guessed correctly %d out of %d times.", wins, plays);
     }
